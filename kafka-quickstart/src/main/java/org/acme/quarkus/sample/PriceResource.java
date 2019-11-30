@@ -1,6 +1,7 @@
 package org.acme.quarkus.sample;
 
-import io.smallrye.reactive.messaging.annotations.Stream;
+import io.smallrye.reactive.messaging.annotations.Channel;
+import org.jboss.resteasy.annotations.SseElementType;
 import org.reactivestreams.Publisher;
 
 import javax.inject.Inject;
@@ -16,18 +17,12 @@ import javax.ws.rs.core.MediaType;
 public class PriceResource {
 
     @Inject
-    @Stream("my-data-stream") Publisher<Double> prices;
-
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "hello";
-    }
-
+    @Channel("my-data-stream") Publisher<Double> prices;
 
     @GET
     @Path("/stream")
-    @Produces(MediaType.SERVER_SENT_EVENTS)
+    @Produces(MediaType.SERVER_SENT_EVENTS) // denotes that server side events (SSE) will be produced
+    @SseElementType("text/plain") // denotes that the contained data, within this SSE, is just regular text/plain data
     public Publisher<Double> stream() {
         return prices;
     }
