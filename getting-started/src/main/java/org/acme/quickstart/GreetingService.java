@@ -6,7 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class GreetingService {
 
     public String greeting(String name) {
-        return "Hello " + name + "!\n";
+        return "Hello " + name + "! Welcome to the Accenture DK POC\n";
     }
 
 }
